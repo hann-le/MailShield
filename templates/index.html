@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title> MailShield </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #000000, #1c1c1c);
+      margin: 0;
+      padding: 0;
+      color: #f2f2f2;
+    }
+
+    .container {
+      max-width: 600px;
+      background-color: #222222;
+      color: #f2f2f2;
+      margin: 60px auto;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(255, 255, 255, 0.05);
+      transition: transform 0.3s ease;
+    }
+
+    .container:hover {
+      transform: scale(1.01);
+    }
+
+    h1 {
+      text-align: center;
+      color: #4877ef;
+      font-size: 30px;
+      margin-bottom: 20px;
+    }
+
+    .instructions {
+      background-color: #333333;
+      padding: 15px;
+      border-left: 5px solid #4877ef;
+      border-radius: 10px;
+      font-size: 14px;
+      margin-bottom: 20px;
+      user-select: none;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 8px;
+      border: 1px solid #555555;
+      resize: vertical;
+      min-height: 120px;
+      margin-top: 10px;
+      background-color: #1c1c1c;
+      color: #ffffff;
+      transition: border-color 0.3s ease;
+    }
+    textarea::placeholder {
+      color: #999999;
+      font-style: italic;
+    }
+    textarea:focus {
+      border-color: #4877ef;
+      outline: none;
+    }
+
+    input[type="submit"], button.clear-btn {
+      background-color: #4877ef;
+      color: #ffffff;
+      border: none;
+      padding: 12px 20px;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 48%;
+      transition: background-color 0.3s ease, transform 0.1s ease;
+      user-select: none;
+    }
+
+    input[type="submit"]:hover, button.clear-btn:hover {
+      background-color: #3a5fd1;
+    }
+
+    input[type="submit"]:active, button.clear-btn:active {
+      transform: scale(0.96);
+    }
+
+    .buttons-container {
+      display: flex;
+      justify-content: space-between;
+      gap: 4%;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      padding: 16px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(72, 119, 239, 0.5);
+      opacity: 0;
+      animation: fadeIn 0.6s forwards;
+    }
+
+    .safe {
+      background-color: #2e7d32;
+      color: #ffffff;
+    }
+
+    .phishing {
+      background-color: #c62828;
+      color: #ffffff;
+    }
+
+    .icon {
+      font-size: 24px;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 30px;
+      font-size: 13px;
+      color: #888888;
+      user-select: none;
+    }
+
+    .loading {
+      text-align: center;
+      color: #4877ef;
+      font-size: 16px;
+      margin-top: 10px;
+      display: none;
+      user-select: none;
+    }
+
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+  </style>
+
+  <script>
+    function handleFormSubmit() {
+      document.getElementById("loading").style.display = "block";
+      document.getElementById("resultBox").innerHTML = "";
+    }
+
+    function clearInput() {
+      document.querySelector('textarea[name="email_text"]').value = "";
+      document.getElementById("resultBox").innerHTML = "";
+      document.getElementById("loading").style.display = "none";
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>MailShield</h1>
+
+    <div class="instructions" title="Follow these steps to check your email">
+      <strong>How to use this tool:</strong><br />
+      1. Copy the email you received.<br />
+      2. Paste it in the box below.<br />
+      3. Click “Analyze” to check if it’s safe or phishing.
+    </div>
+
+    <form method="post" onsubmit="handleFormSubmit()">
+      <textarea name="email_text" rows="10" placeholder="Paste your email here...">{{ request.form.email_text }}</textarea><br />
+
+      <div class="buttons-container">
+        <input type="submit" value="Analyze" title="Click to analyze the email" />
+        <button type="button" class="clear-btn" onclick="clearInput()" title="Clear text and results">Clear</button>
+      </div>
+    </form>
+
+    <div id="loading" class="loading">Analyzing...</div>
+
+    <div id="resultBox">
+      {% if result %}
+        <div class="result {% if result == 'Phishing' %}phishing{% else %}safe{% endif %}">
+          {% if result == 'Phishing' %}
+            <span class="icon">⚠️</span> Result: {{ result }}
+          {% else %}
+            <span class="icon">✅</span> Result: {{ result }}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="footer">
+    Created by Han Le
+  </div>
+</body>
+</html>
