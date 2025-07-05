@@ -7,4 +7,4 @@ The MailShield project goal is to help users quickly identify phishing emails by
 - providing a clear classification of emails as “safe” or “Phishing”
 
 ## Website Link 
-mailshield.onrender.com
+www.mailshield.onrender.com
