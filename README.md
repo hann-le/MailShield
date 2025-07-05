@@ -1,6 +1,5 @@
 # MaildShield
-GSU Senior Capstone Project 
-The MailShield project goal is to help users quickly identify phishing emails by analyzing both the content and email headers.
+GSU Senior Capstone Project - The MailShield project goal is to help users quickly identify phishing emails by analyzing both the content and email headers.
 
 ## Features
 
