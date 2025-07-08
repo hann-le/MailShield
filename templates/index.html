@@ -84,22 +84,24 @@
       font-style: italic;
     }
 
+    .buttons-container {
+      display: flex;
+      justify-content: center; /* Center buttons horizontally */
+      gap: 20px; /* Space between buttons */
+      margin-top: 15px;
+    }
+
     button {
       background-color: #2b60c4;
       color: #ffffff;
       border: none;
-      padding: 12px 20px;
+      padding: 12px 24px;
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
-      margin-top: 15px;
-    }
-
-    .buttons-container {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: 10px;
+      align-items: center;
+      gap: 8px; /* Space between emoji and text */
     }
 
     .result {
@@ -216,8 +218,8 @@
       <textarea name="email_text" rows="8" placeholder="Paste your email content here...">{{ request.form.email_text }}</textarea>
 
       <div class="buttons-container">
-        <button type="submit" name="action" value="analyze">Analyze</button>
-        <button type="submit" name="action" value="download_report">Download Report</button>
+        <button type="submit" name="action" value="analyze">🔍 Analyze</button>
+        <button type="submit" name="action" value="download_report">📄 Download Report</button>
       </div>
     </form>
 
@@ -258,23 +260,23 @@
     </div>
   </div>
 
- <div class="container tab-content" id="about-content">
-  <div class="learn-more-content">
-    <h3><strong>About Me</strong></h3>
-    <p> Hi, I’m Han Le. I’m a senior at Georgia Southern University and a cybersecurity enthusiast and developer. </p>
+  <div class="container tab-content" id="about-content">
+    <div class="learn-more-content">
+      <h3><strong>About Me</strong></h3>
+      <p> Hi, I’m Han Le. I’m a senior at Georgia Southern University and a cybersecurity enthusiast and developer. </p>
 
-    <h3><strong>About MailShield</strong></h3>
-    <p>MailShield is a phishing email detection tool built to help users identify suspicious emails and stay safe online. It combines rule-based checks and machine learning models to analyze email content and headers.</p>
-    <p>This project is my senior capstone project for my Information Technology degree. It represents my research, coding, and testing to create a practical cybersecurity tool that addresses real-world email security challenges.</p>
-    
-    <h3><strong>Contact & Contribute</strong></h3>
-    <p>If you have feedback, questions or want to contribute, feel free to reach out or visit my website:</p>
-    <ul>
-      <li><a href="https://www.thehanle.com" target="_blank" rel="noopener noreferrer">www.thehanle.com</a></li>
-      <li><a href="https://github.com/hann-le" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
-    </ul>
+      <h3><strong>About MailShield</strong></h3>
+      <p>MailShield is a phishing email detection tool built to help users identify suspicious emails and stay safe online. It combines rule-based checks and machine learning models to analyze email content and headers.</p>
+      <p>This project is my senior capstone project for my Information Technology degree. It represents my research, coding, and testing to create a practical cybersecurity tool that addresses real-world email security challenges.</p>
+
+      <h3><strong>Contact & Contribute</strong></h3>
+      <p>If you have feedback, questions or want to contribute, feel free to reach out or visit my website:</p>
+      <ul>
+        <li><a href="https://www.thehanle.com" target="_blank" rel="noopener noreferrer">www.thehanle.com</a></li>
+        <li><a href="https://github.com/hann-le" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+      </ul>
+    </div>
   </div>
-</div>
 
   <footer>
     &copy; 2025 MailShield | Han Le
