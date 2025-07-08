@@ -4,26 +4,51 @@
   <meta charset="UTF-8" />
   <title>MailShield</title>
   <style>
-    html {
-      min-height: 100%;
-      background: linear-gradient(to bottom, #e6f0ff, #c0d4f5, #a6c0ed, #8ba8e4);
-    }
-
     body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to bottom, #f0f4f8, #dce7f3);
       margin: 0;
       padding: 0;
-      font-family: Arial, sans-serif;
       color: #1c1f26;
+    }
+
+    h1 {
+      text-align: center;
+      color: #2b60c4;
+      font-size: 32px;
+      margin-top: 30px;
+    }
+
+    .tabs {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .tab-button {
+      padding: 12px 24px;
+      background-color: #eaf1fc;
+      border: none;
+      border-bottom: 3px solid transparent;
+      color: #1c1f26;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab-button.active {
+      border-bottom: 3px solid #2b60c4;
+      background-color: #f7faff;
+      font-weight: bold;
     }
 
     .container {
-      max-width: 600px;
-      background-color: #f5f8ff;
-      color: #1c1f26;
-      margin: 60px auto;
+      max-width: 700px;
+      background-color: #ffffff;
+      margin: 20px auto;
       padding: 30px;
       border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0, 50, 120, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
       transition: transform 0.3s ease;
     }
 
@@ -31,21 +56,14 @@
       transform: scale(1.01);
     }
 
-    h1 {
-      text-align: center;
-      color: #4877ef;
-      font-size: 30px;
-      margin-bottom: 20px;
-    }
-
     .instructions {
-      background-color: #e2ebfa;
-      padding: 15px;
-      border-left: 5px solid #4877ef;
+      background-color: #eaf1fc;
+      padding: 16px;
+      border-left: 4px solid #2b60c4;
       border-radius: 10px;
       font-size: 14px;
       margin-bottom: 20px;
-      user-select: none;
+      color: #333;
     }
 
     textarea {
@@ -53,13 +71,12 @@
       padding: 12px;
       font-size: 16px;
       border-radius: 8px;
-      border: 1px solid #9bb5e2;
+      border: 1px solid #c0d3ea;
       resize: vertical;
-      min-height: 120px;
+      min-height: 100px;
       margin-top: 10px;
       background-color: #f9fbff;
       color: #1c1f26;
-      transition: border-color 0.3s ease;
     }
 
     textarea::placeholder {
@@ -67,13 +84,8 @@
       font-style: italic;
     }
 
-    textarea:focus {
-      border-color: #4877ef;
-      outline: none;
-    }
-
-    input[type="submit"], button.clear-btn {
-      background-color: #4877ef;
+    button {
+      background-color: #2b60c4;
       color: #ffffff;
       border: none;
       padding: 12px 20px;
@@ -81,23 +93,13 @@
       border-radius: 8px;
       cursor: pointer;
       margin-top: 15px;
-      width: 48%;
-      transition: background-color 0.3s ease, transform 0.1s ease;
-      user-select: none;
-    }
-
-    input[type="submit"]:hover, button.clear-btn:hover {
-      background-color: #3a5fd1;
-    }
-
-    input[type="submit"]:active, button.clear-btn:active {
-      transform: scale(0.96);
     }
 
     .buttons-container {
       display: flex;
+      flex-wrap: wrap;
       justify-content: space-between;
-      gap: 4%;
+      gap: 10px;
     }
 
     .result {
@@ -107,18 +109,18 @@
       font-weight: bold;
       padding: 16px;
       border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(72, 119, 239, 0.4);
+      box-shadow: 0 4px 20px rgba(43, 96, 196, 0.25);
       opacity: 0;
       animation: fadeIn 0.6s forwards;
     }
 
     .safe {
-      background-color: #2e7d32;
+      background-color: #3cb371;
       color: #ffffff;
     }
 
     .phishing {
-      background-color: #c62828;
+      background-color: #d32f2f;
       color: #ffffff;
     }
 
@@ -128,27 +130,46 @@
       vertical-align: middle;
     }
 
-    .footer {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 13px;
-      color: #6b6b6b;
-      user-select: none;
-    }
-
     .loading {
       text-align: center;
-      color: #4877ef;
+      color: #2b60c4;
       font-size: 16px;
       margin-top: 10px;
       display: none;
-      user-select: none;
     }
 
     @keyframes fadeIn {
       to {
         opacity: 1;
       }
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .learn-more-content {
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+    }
+
+    .learn-more-content ul {
+      padding-left: 20px;
+    }
+
+    footer {
+      background-color: #ffffff;
+      padding: 20px 0;
+      margin-top: 40px;
+      text-align: center;
+      font-size: 13px;
+      color: #666;
+      box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.05);
     }
   </style>
 
@@ -158,30 +179,45 @@
       document.getElementById("resultBox").innerHTML = "";
     }
 
-    function clearInput() {
-      document.querySelector('textarea[name="email_text"]').value = "";
-      document.getElementById("resultBox").innerHTML = "";
-      document.getElementById("loading").style.display = "none";
+    function switchTab(tabName) {
+      const tabButtons = document.querySelectorAll('.tab-button');
+      const tabContents = document.querySelectorAll('.tab-content');
+
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      tabContents.forEach(content => content.classList.remove('active'));
+
+      document.getElementById(tabName + '-tab').classList.add('active');
+      document.getElementById(tabName + '-content').classList.add('active');
     }
   </script>
 </head>
-<body>
-  <div class="container">
-    <h1>MailShield</h1>
 
-    <div class="instructions" title="Follow these steps to check your email">
+<body>
+  <h1>MailShield</h1>
+
+  <div class="tabs">
+    <button class="tab-button active" id="analyze-tab" onclick="switchTab('analyze')">Analyze Email</button>
+    <button class="tab-button" id="learn-tab" onclick="switchTab('learn')">Learn More</button>
+    <button class="tab-button" id="about-tab" onclick="switchTab('about')">About / Contact</button>
+  </div>
+
+  <div class="container tab-content active" id="analyze-content">
+    <div class="instructions">
       <strong>How to use this tool:</strong><br />
-      1. Copy the email you received.<br />
-      2. Paste it in the box below.<br />
-      3. Click “Analyze” to check if it’s safe or phishing.
+      1. Paste the email content and header.<br />
+      2. Click “Analyze” to check if it’s safe or phishing.
     </div>
 
     <form method="post" onsubmit="handleFormSubmit()">
-      <textarea name="email_text" rows="10" placeholder="Paste your email here...">{{ request.form.email_text }}</textarea><br />
+      <label><strong>Email Header:</strong></label>
+      <textarea name="email_header" rows="6" placeholder="Paste the email header here...">{{ request.form.email_header }}</textarea>
+
+      <label><strong>Email Body:</strong></label>
+      <textarea name="email_text" rows="8" placeholder="Paste your email content here...">{{ request.form.email_text }}</textarea>
 
       <div class="buttons-container">
-        <input type="submit" value="Analyze" title="Click to analyze the email" />
-        <button type="button" class="clear-btn" onclick="clearInput()" title="Clear text and results">Clear</button>
+        <button type="submit" name="action" value="analyze">Analyze</button>
+        <button type="submit" name="action" value="download_report">Download Report</button>
       </div>
     </form>
 
@@ -200,8 +236,48 @@
     </div>
   </div>
 
-  <div class="footer">
-    Created by <strong>Han Le</strong> | © 2025
+  <div class="container tab-content" id="learn-content">
+    <div class="learn-more-content">
+      <h3><strong>How to Spot a Phishing Email</strong></h3>
+      <ul>
+        <li>Suspicious sender address (e.g., random domain names)</li>
+        <li>Urgent or threatening language (e.g., “Your account will be closed!”)</li>
+        <li>Fake links (hover to preview before clicking)</li>
+        <li>Unexpected attachments</li>
+        <li>Spelling and grammar errors</li>
+      </ul>
+
+      <h3><strong>Email Header Tips:</strong></h3>
+      <ul>
+        <li>Check if the <code>From</code> address matches the <code>Return-Path</code> or <code>Reply-To</code> address.</li>
+        <li>Look for forged or suspicious <code>Received</code> fields that show unusual routing paths.</li>
+        <li>Verify if <code>SPF</code> or <code>DKIM</code> signatures are present and valid.</li>
+        <li>Watch out for missing or malformed <code>Message-ID</code> fields.</li>
+        <li>Check if the email originates from unexpected countries or servers.</li>
+      </ul>
+    </div>
   </div>
+
+ <div class="container tab-content" id="about-content">
+  <div class="learn-more-content">
+    <h3><strong>About Me</strong></h3>
+    <p> Hi, I’m Han Le. I’m a senior at Georgia Southern University and a cybersecurity enthusiast and developer. </p>
+
+    <h3><strong>About MailShield</strong></h3>
+    <p>MailShield is a phishing email detection tool built to help users identify suspicious emails and stay safe online. It combines rule-based checks and machine learning models to analyze email content and headers.</p>
+    <p>This project is my senior capstone project for my Information Technology degree. It represents my research, coding, and testing to create a practical cybersecurity tool that addresses real-world email security challenges.</p>
+    
+    <h3><strong>Contact & Contribute</strong></h3>
+    <p>If you have feedback, questions or want to contribute, feel free to reach out or visit my website:</p>
+    <ul>
+      <li><a href="https://www.thehanle.com" target="_blank" rel="noopener noreferrer">www.thehanle.com</a></li>
+      <li><a href="https://github.com/hann-le" target="_blank" rel="noopener noreferrer">GitHub Repository</a></li>
+    </ul>
+  </div>
+</div>
+
+  <footer>
+    &copy; 2025 MailShield | Han Le
+  </footer>
 </body>
 </html>
