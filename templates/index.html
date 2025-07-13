@@ -84,24 +84,22 @@
       font-style: italic;
     }
 
-    .buttons-container {
-      display: flex;
-      justify-content: center; /* Center buttons horizontally */
-      gap: 20px; /* Space between buttons */
-      margin-top: 15px;
-    }
-
     button {
       background-color: #2b60c4;
       color: #ffffff;
       border: none;
-      padding: 12px 24px;
+      padding: 12px 20px;
       font-size: 16px;
       border-radius: 8px;
       cursor: pointer;
+      margin-top: 15px;
+    }
+
+    .buttons-container {
       display: flex;
-      align-items: center;
-      gap: 8px; /* Space between emoji and text */
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
     }
 
     .result {
@@ -191,6 +189,13 @@
       document.getElementById(tabName + '-tab').classList.add('active');
       document.getElementById(tabName + '-content').classList.add('active');
     }
+
+    function clearForm() {
+      document.querySelector('textarea[name="email_header"]').value = "";
+      document.querySelector('textarea[name="email_text"]').value = "";
+      document.getElementById("resultBox").innerHTML = "";
+      document.getElementById("loading").style.display = "none";
+    }
   </script>
 </head>
 
@@ -218,8 +223,9 @@
       <textarea name="email_text" rows="8" placeholder="Paste your email content here...">{{ request.form.email_text }}</textarea>
 
       <div class="buttons-container">
-        <button type="submit" name="action" value="analyze">🔍 Analyze</button>
-        <button type="submit" name="action" value="download_report">📄 Download Report</button>
+        <button type="submit" name="action" value="analyze">Analyze</button>
+        <button type="submit" name="action" value="download_report">Download Report</button>
+        <button type="button" onclick="clearForm()">Clear</button>
       </div>
     </form>
 
